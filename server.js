@@ -181,7 +181,7 @@ const getNodeInfo = async nodeId => await getCache('nodeInfo', nodeId, 30 * 60 *
   const info = await lnd.getNodeInfo(nodeId)
   return info
 })
-const getRingConfig = ring => fs.readFileSync(path.join(__dirname, `../rings/${ring}.json`), { encoding: 'utf8'})
+const getRingConfig = ring => fs.readFileSync(path.join(__dirname, `./rings/${ring}.json`), { encoding: 'utf8'})
 
 const lnd = new LND({
   macaroon: config.lnd.macaroon,
@@ -208,7 +208,7 @@ app.get('/', (req, res) => {
 
 app.get('/getRings', async (req, res) => {
   res.setHeader('Content-Type', 'application/json')
-  let rings = fs.readdirSync('../rings')
+  let rings = fs.readdirSync('./rings')
     .filter(file => /json/.test(file))
     .map(file => file.replace('.json', ''))
   res.send(rings)
@@ -243,7 +243,7 @@ app.post('/addRing', async (req, res) => {
     hops
   }
 
-  fs.writeFile(path.join(__dirname, `../rings/${ring}.json`), JSON.stringify(json), (err, data) => {
+  fs.writeFile(path.join(__dirname, `./rings/${ring}.json`), JSON.stringify(json), (err, data) => {
     res.setHeader('Content-Type', 'application/json')
     json.id = ring
     res.send(json)
@@ -276,7 +276,7 @@ app.post('/editRing', async (req, res) => {
     })
   }
 
-  fs.writeFile(path.join(__dirname, `../rings/${ring}.json`), JSON.stringify(ringConfig), (err, data) => {
+  fs.writeFile(path.join(__dirname, `./rings/${ring}.json`), JSON.stringify(ringConfig), (err, data) => {
     res.setHeader('Content-Type', 'application/json')
     res.send(ringConfig)
   })
@@ -292,7 +292,7 @@ app.post('/deleteRing', async (req, res) => {
     })
   }
 
-  fs.unlink(path.join(__dirname, `../rings/${ring}.json`), (err, data) => {
+  fs.unlink(path.join(__dirname, `./rings/${ring}.json`), (err, data) => {
     res.setHeader('Content-Type', 'application/json')
     res.send({
       id: ring
@@ -302,7 +302,7 @@ app.post('/deleteRing', async (req, res) => {
 
 app.get('/getRingConfig', async (req, res) => {
   const ring = req.query.ring
-  fs.readFile(path.join(__dirname, `../rings/${ring}.json`), { encoding: 'utf8'}, (err, data) => {
+  fs.readFile(path.join(__dirname, `./rings/${ring}.json`), { encoding: 'utf8'}, (err, data) => {
     res.setHeader('Content-Type', 'application/json')
     if (err) {
       res.status(404)
