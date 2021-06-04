@@ -20,7 +20,7 @@ const getCache = (type, id, ttl, callback) => {
 
 class LND {
   constructor(options) {
-    this.macaroon = fs.readFileSync(path.join(__dirname, options.macaroon)).toString('hex')
+    this.macaroon = fs.readFileSync(options.macaroon).toString('hex')
     this.url = options.url
   }
   getInfo = async () => {
