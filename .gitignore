@@ -6,3 +6,4 @@ config.js
 .cache
 .parcel-cache
 dist
+rings/*.json
